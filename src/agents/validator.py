@@ -4,8 +4,13 @@ from src.core.constitution import TaskStatus
 
 class ValidatorAgent(BaseAgent):
     """
-    Quality Assurance.
-    Reviews outputs and ensures constitution compliance.
+    Critic of the system.
+    Checks code integrity, constitution compliance, and requirement coverage.
+
+    # FINAL AUTHORITY RULE
+    # - No task outside planner plan
+    # - No memory write unless status == COMPLETED
+    # - Any constitution violation => BLOCKED
     """
     
     def __init__(self):

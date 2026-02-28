@@ -192,3 +192,34 @@ pip install .
 ## 📄 License
 
 MIT — Built with ❤️ for autonomous AI research.
+## ?? Example Run
+
+### Input
+`ash
+python main.py "I want an idea to earn money"
+`
+
+### Execution Flow
+
+* Planner ? Task decomposition
+* Researcher ? Market trends
+* Executor ? Proposal generation
+* Validator ? Constitution + coverage check
+* Memory Agent ? Store validated outcome
+
+### Output
+
+`json
+{
+  "status": "COMPLETED",
+  "summary": "Generated a validated online income idea",
+  "constitution_violations": []
+}
+`
+
+### Status Labels
+
+* **COMPLETED** ? 100% requirements satisfied
+* **PARTIAL** ? Some tasks blocked
+* **BLOCKED** ? Reality lock / missing credentials
+* **WAITING** ? User confirmation required

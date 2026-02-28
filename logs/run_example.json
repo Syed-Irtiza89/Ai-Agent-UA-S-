@@ -1,0 +1,25 @@
+{
+    "run_id": "example-001",
+    "steps": [
+        {
+            "agent": "Planner",
+            "action": "Task decomposition",
+            "status": "OK"
+        },
+        {
+            "agent": "Researcher",
+            "action": "Context gathering",
+            "status": "OK"
+        },
+        {
+            "agent": "Executor",
+            "action": "Tool execution",
+            "status": "OK"
+        },
+        {
+            "agent": "Validator",
+            "action": "Final verification",
+            "status": "COMPLETED"
+        }
+    ]
+}

@@ -4,8 +4,13 @@ from src.memory.long_term import LongTermMemory
 
 class MemoryAgent(BaseAgent):
     """
-    Pattern Recognizer.
-    Manages long-term memory and user preferences.
+    Hippocampus of the system.
+    Handles persistent storage of user preferences and task outcomes.
+
+    # Memory write allowed ONLY if:
+    # - Validator status == COMPLETED
+    # - Confidence >= 0.9
+    # - Task hash attached
     """
     
     def __init__(self):
