@@ -1,73 +1,194 @@
 # 🧠 Universal Autonomous AI Agent System (UA²S)
 
-**UA²S** is a general-purpose autonomous AI agent workforce designed to behave like a digital human assistant. It transitions from a simple chatbot to a thinking, planning, and acting system.
+> *"Mera yeh kaam kar do" — and the system handles it, end-to-end.*
+
+**UA²S** is a production-grade, constitutionally-governed multi-agent AI framework that behaves like a digital human assistant.
+
+![Python](https://img.shields.io/badge/python-3.10+-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![Status](https://img.shields.io/badge/status-alpha-orange) ![CI](https://github.com/Syed-Irtiza89/Ai-Agent-UA-S-/actions/workflows/ci.yml/badge.svg)
 
 ---
 
 ## 🏗️ System Architecture
 
-UA²S leverages a **Stateful Multi-Agent Graph** architecture:
-- **Planner Agent**: The "Brain" that decomposes vague instructions into actionable plans.
-- **Executor Agent**: The "Hands" that interact with the OS, Shell, and Filesystem.
-- **Researcher Agent**: The "Eyes" that gather external intelligence.
-- **Validator Agent**: The "Critic" that ensures quality and protocol compliance.
-- **Memory Agent**: The "Hippocampus" that manages long-term persistence and user preferences.
+```
+User Instruction
+      │
+      ▼
+┌─────────────────┐
+│  Planner Agent  │  ← Decomposes intent into steps
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────────────────────────────────┐
+│              Graph Engine                   │
+│  Research → Execute → Validate → Persist    │
+└────────┬────────────────────────────────────┘
+         │
+    ┌────┴────┐
+    │         │
+    ▼         ▼
+Executor  Researcher     ← Tools: Shell, Filesystem, REPL, Browser
+    │
+    ▼
+Validator ─► Memory Agent ─► SQLite Storage
+```
 
----
-
-## 🛡️ Agent Constitution (Safety & Honesty)
-
-Every action is governed by a **16-clause Constitution** (see `CONSTITUTION.md`):
-- **Reality Lock**: Prevents agents from assuming physical or unauthorized superpowers.
-- **No-Loop Enforcement**: Hard limit of 3 retries per step to prevent infinite reasoning loops.
-- **Output Discipline**: Clear status labeling (`✅ COMPLETED`, `❌ BLOCKED`, etc.).
-- **Workspace Jail**: Strict file system and shell boundaries.
+Every decision is governed by the **16-clause Agent Constitution** (see `CONSTITUTION.md`):
+- 🔒 **Reality Lock** — blocks impossible actions
+- 🔁 **No-Loop Rule** — max 3 retries per step
+- 🏷️ **Output Discipline** — every response is labeled
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Prerequisites
-- Python 3.10+
-- LLM API Keys (OpenAI, Anthropic, or Google Gemini)
+### 1. Clone & Install
 
-### 2. Installation
 ```bash
-# Clone the repository
 git clone https://github.com/Syed-Irtiza89/Ai-Agent-UA-S-.git
 cd Ai-Agent-UA-S-
-
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 3. Setup Environment
-Rename `.env.example` to `.env` and add your API keys:
+### 2. Configure Environment
+
 ```bash
 cp .env.example .env
+# Edit .env and add your API keys
 ```
 
-### 4. Run the Agent
+### 3. Run the Agent (CLI)
+
 ```bash
 python main.py
 ```
 
----
+### 4. Run the Dashboard (Streamlit UI)
 
-## 🛠️ Modularity & Tools
-The project is structured for high maintainability:
-- `src/agents/`: Specialized agent logic.
-- `src/core/`: Orchestration, State, and Constitution.
-- `src/tools/`: Filesystem, Shell, and Browser integrations.
-- `src/memory/`: SQLite-based persistent storage.
-
----
-
-## 🧪 Testing
-Run the test suite to ensure stability:
 ```bash
-pytest tests/
+streamlit run src/interface/app.py
 ```
 
-## 📜 License
-This project is part of a foundation for a real AI product. Built with ❤️ for autonomy.
+---
+
+## 🎮 Usage Examples
+
+### English Instruction
+```
+Query: I want ideas to earn money with AI
+Agent Status: IN_PROGRESS → COMPLETED
+✅ COMPLETED: Analyzed 5 profitable AI SaaS niches. Top recommendation: Document automation.
+```
+
+### Roman Urdu Instruction
+```
+Query: Mera yeh repo samajh ke improve karo
+Agent Status: IN_PROGRESS → COMPLETED
+✅ COMPLETED: Read repo structure and suggested 3 specific performance improvements.
+```
+
+### Blocked by Reality Lock (Clause 11)
+```
+Query: Go buy a coffee for me
+Agent Status: BLOCKED
+❌ BLOCKED: Physical action required. Cannot execute without physical presence.
+   Next best option: I can order online if given store URL and credentials.
+```
+
+---
+
+## 📊 Sample Execution Trace (JSON Log)
+
+Every run generates a structured log at `logs/session_<timestamp>.json`:
+
+```json
+{
+  "session_id": "20260301_013000",
+  "total_steps": 3,
+  "trace": [
+    {
+      "step": 1,
+      "agent": "Planner",
+      "input": "Research profitable AI ideas",
+      "output": "Plan created with 3 steps",
+      "status": "✅ OK"
+    },
+    {
+      "step": 2,
+      "agent": "Executor",
+      "input": "Research profitable AI SaaS ideas for 2026",
+      "output": "Successfully performed research step",
+      "status": "✅ COMPLETED"
+    },
+    {
+      "step": 3,
+      "agent": "Validator",
+      "input": "Verify all steps completed",
+      "output": "All steps verified. Task marked as COMPLETED.",
+      "status": "✅ COMPLETED"
+    }
+  ]
+}
+```
+
+---
+
+## 🟢 Status Labels
+
+| Label | Meaning |
+|---|---|
+| ✅ `COMPLETED` | All steps verified and done |
+| 🟡 `PARTIAL` | Some steps incomplete |
+| ❌ `BLOCKED` | Physical limit, missing creds, or reality lock |
+| ⏳ `WAITING` | User input required |
+| 🔄 `IN_PROGRESS` | Currently executing |
+
+---
+
+## 🛠️ Modularity
+
+```
+src/
+  agents/        ← Planner, Executor, Researcher, Validator, Memory
+  core/          ← Graph Engine, Constitution, State, Prompts, Logger
+  tools/         ← Filesystem, Shell, Browser, Python REPL
+  memory/        ← SQLite Long-Term Storage
+  interface/     ← CLI (Rich) + Dashboard (Streamlit)
+plugins/         ← Drop-in custom agents/tools
+tests/           ← Full test suite (15+ tests)
+docs/            ← Sample traces and references
+```
+
+---
+
+## 🧪 Running Tests
+
+```bash
+pytest tests/ -v
+```
+
+---
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture guidelines, code style, and constitution compliance rules.
+
+---
+
+## 📜 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
+---
+
+## 📦 Install as Package
+
+```bash
+pip install .
+```
+
+---
+
+## 📄 License
+
+MIT — Built with ❤️ for autonomous AI research.
