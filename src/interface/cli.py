@@ -25,6 +25,9 @@ class UA2SCLI:
                 user_input = console.input("[bold yellow]Query (or 'exit'): [/bold yellow]")
                 if user_input.lower() in ["exit", "quit", "stop"]:
                     break
+                
+                if not user_input.strip():
+                    continue
                     
                 state = GlobalState(user_instruction=user_input)
                 final_state = self.graph.execute(state)
@@ -44,7 +47,7 @@ class UA2SCLI:
                 console.print("\n[red]Session Aborted by User.[/red]")
                 break
             except Exception as e:
-                console.print(f"[bold red]Unexpected Error: {str(e)}[/bold red]")
+                console.print(f"[bold red]CLI Error: {str(e)}[/bold red]")
 
 if __name__ == "__main__":
     cli = UA2SCLI()

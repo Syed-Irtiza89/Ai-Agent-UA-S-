@@ -19,42 +19,48 @@ class GraphEngine:
         self.memory_manager = MemoryAgent()
 
     def execute(self, state: GlobalState) -> GlobalState:
-        """Main execution loop for the task graph cycle."""
-        print(f"--- UA²S Execution v{state.system_version} ---")
-        
-        # 1. Planning Phase
-        if not state.plan:
-            state = self.planner.run(state)
-            if state.status == TaskStatus.BLOCKED:
-                return state
-
-        # 2. Execution Loop
-        max_iterations = 10 # Safety break for the graph
-        iteration = 0
-        
-        while iteration < max_iterations:
-            iteration += 1
+        """Main execution loop for the task graph cycle with robust error handling."""
+        try:
+            print(f"--- UA²S Execution v{state.system_version} ---")
             
-            # Simple linear execution for MVP
-            pending_steps = [s for s in state.history if s.status == "PENDING"]
-            if not pending_steps:
-                break
+            # 1. Planning Phase
+            if not state.plan:
+                state = self.planner.run(state)
+                if state.status == TaskStatus.BLOCKED:
+                    return state
+
+            # 2. Execution Loop
+            max_iterations = 10 
+            iteration = 0
+            
+            while iteration < max_iterations:
+                iteration += 1
                 
-            state = self.researcher.run(state) # Basic research step
-            state = self.executor.run(state)
-            
-            # Rule 3.2: Loop Detection
-            if self.enforcer.check_loop(state.history):
-                print("[Graph] Infinite loop detected.")
-                state.status = TaskStatus.BLOCKED
-                state.add_message("System", "❌ Infinite loop detected. Escalating to user.")
-                return state
+                pending_steps = [s for s in state.history if s.status == "PENDING"]
+                if not pending_steps:
+                    break
+                    
+                # Rule 5: Tool Usage / Research
+                state = self.researcher.run(state)
+                state = self.executor.run(state)
+                
+                # Rule 3.2: Loop Detection
+                if self.enforcer.check_loop(state.history):
+                    print("[Graph] Infinite loop detected.")
+                    state.status = TaskStatus.BLOCKED
+                    state.add_message("System", "❌ Infinite loop detected. Escalating to user.")
+                    return state
 
-        # 3. Validation Phase
-        state = self.validator.run(state)
-        
-        # 4. Persistence Phase
-        state = self.memory_manager.run(state)
-        
-        print(f"--- Cycle Finished: {state.status} ---")
-        return state
+            # 3. Validation Phase
+            state = self.validator.run(state)
+            
+            # 4. Persistence Phase
+            state = self.memory_manager.run(state)
+            
+            print(f"--- Cycle Finished: {state.status} ---")
+            return state
+        except Exception as e:
+            print(f"[Graph Critical Error] {str(e)}")
+            state.status = TaskStatus.BLOCKED
+            state.add_message("System", f"❌ Execution failed due to a system error: {str(e)}")
+            return state
