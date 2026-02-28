@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Databases
+*.db
+*.sqlite3
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Project specific
+memory.db
+C:\Users\hp\Music\Ai Agent\memory.db
+C:\Users\hp\Music\Ai Agent\.gemini\
+C:\Users\hp\Music\Ai Agent\.agents\
+C:\Users\hp\Music\Ai Agent\reports\
+C:\Users\hp\Music\Ai Agent\tmp\
