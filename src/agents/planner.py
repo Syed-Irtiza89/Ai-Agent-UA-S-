@@ -2,6 +2,7 @@ from typing import List
 from src.agents.base import BaseAgent
 from src.core.state import GlobalState, TaskStep
 from src.core.constitution import TaskStatus
+from src.core.prompts import SystemPrompts
 
 class PlannerAgent(BaseAgent):
     """
@@ -11,6 +12,7 @@ class PlannerAgent(BaseAgent):
     
     def __init__(self):
         super().__init__("Planner")
+        self.system_prompt = SystemPrompts.PLANNER_PROMPT
 
     def run(self, state: GlobalState) -> GlobalState:
         self.log(state, "Interpreting user intent...")

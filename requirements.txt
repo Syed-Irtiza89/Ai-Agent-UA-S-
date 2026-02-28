@@ -6,3 +6,4 @@ playwright
 rich
 pytest
 sqlalchemy
+streamlit
