@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "ua2s"
+version = "0.1.0"
+description = "Universal Autonomous AI Agent System — a constitutionally-governed multi-agent framework."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Syed Irtiza", email = "syed.irtiza89@gmail.com" }
+]
+keywords = ["ai", "agents", "autonomous", "multi-agent", "llm", "langgraph", "crewai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "pydantic",
+    "python-dotenv",
+    "rich",
+    "sqlalchemy",
+    "streamlit",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov"]
+search = ["duckduckgo-search"]
+browser = ["playwright"]
+
+[project.scripts]
+ua2s = "main:main"
+
+[project.urls]
+Homepage = "https://github.com/Syed-Irtiza89/Ai-Agent-UA-S-"
+Issues = "https://github.com/Syed-Irtiza89/Ai-Agent-UA-S-/issues"
