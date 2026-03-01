@@ -1,225 +1,219 @@
-# 🧠 Universal Autonomous AI Agent System (UA²S)
+# 🧠 UA²S — Universal Autonomous AI Agent System
 
-> *"Mera yeh kaam kar do" — and the system handles it, end-to-end.*
+UA²S is a **constitutionally-governed, multi-agent autonomous AI framework** designed to behave like a **digital human assistant**.
+It combines planning, research, execution, validation, and memory — all enforced by a strict safety constitution.
 
-**UA²S** is a production-grade, constitutionally-governed multi-agent AI framework that behaves like a digital human assistant.
-
-![Python](https://img.shields.io/badge/python-3.10+-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![Status](https://img.shields.io/badge/status-alpha-orange) ![CI](https://github.com/Syed-Irtiza89/Ai-Agent-UA-S-/actions/workflows/ci.yml/badge.svg)
-
----
-
-## 🏗️ System Architecture
-
-```
-User Instruction
-      │
-      ▼
-┌─────────────────┐
-│  Planner Agent  │  ← Decomposes intent into steps
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────────────────────────────────┐
-│              Graph Engine                   │
-│  Research → Execute → Validate → Persist    │
-└────────┬────────────────────────────────────┘
-         │
-    ┌────┴────┐
-    │         │
-    ▼         ▼
-Executor  Researcher     ← Tools: Shell, Filesystem, REPL, Browser
-    │
-    ▼
-Validator ─► Memory Agent ─► SQLite Storage
-```
-
-Every decision is governed by the **16-clause Agent Constitution** (see `CONSTITUTION.md`):
-- 🔒 **Reality Lock** — blocks impossible actions
-- 🔁 **No-Loop Rule** — max 3 retries per step
-- 🏷️ **Output Discipline** — every response is labeled
+> ⚠️ UA²S is **not a chatbot**.
+> It is a **stateful agentic system** with governance, explainability, and control.
 
 ---
 
-## 🚀 Getting Started
+## ✨ Key Features
 
-### 1. Clone & Install
+* 🧩 **Multi-Agent Architecture**
+  * Planner Agent
+  * Researcher Agent
+  * Executor Agent
+  * Validator Agent
+  * Memory Agent
+
+* 📜 **Agent Constitution (16 Rules)**
+  * Reality Lock (blocks physical / credential-based tasks)
+  * No infinite loops
+  * Output discipline (explicit status labels)
+  * Workspace Jail (filesystem safety)
+
+* 🧠 **Graph-Based Orchestration**
+  * State-machine execution
+  * Retry limits (max 3)
+  * Deterministic flow
+
+* 💾 **Long-Term Memory**
+  * SQLite-based persistence
+  * Memory writes gated by Validator approval
+
+* 🌍 **Multi-Language Friendly**
+  * English + Roman Urdu tested
+
+---
+
+## 🏗️ Architecture Overview
+
+```
+User
+ ↓
+Planner Agent ──► Task Graph
+ ↓
+Researcher Agent ──► Context
+ ↓
+Executor Agent ──► Tools / Actions
+ ↓
+Validator Agent ──► Safety + Coverage Check
+ ↓
+Memory Agent ──► Persistent Knowledge
+```
+
+All steps are enforced by the **Agent Constitution**.
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+  agents/
+    planner.py
+    researcher.py
+    executor.py
+    validator.py
+    memory_agent.py
+  core/
+    graph.py
+    state.py
+    constitution.py
+    prompts.py
+  tools/
+    filesystem.py
+    shell.py
+    browser.py
+    gates.py
+  memory/
+    short_term.py
+    long_term.py
+
+tests/
+logs/
+main.py
+CONSTITUTION.md
+CHANGELOG.md
+requirements.txt
+.env.example
+```
+
+---
+
+## 🚀 Installation
 
 ```bash
-git clone https://github.com/Syed-Irtiza89/Ai-Agent-UA-S-.git
+git clone https://github.com/Syed-Irtiza89/Ai-Agent-UA-S-
 cd Ai-Agent-UA-S-
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment
-
+Create environment file:
 ```bash
 cp .env.example .env
-# Edit .env and add your API keys
+```
+Add your API keys inside `.env`.
+
+---
+
+## ▶️ Usage
+
+### Basic Run
+```bash
+python main.py "I want an idea to earn money"
 ```
 
-### 3. Run the Agent (CLI)
-
+### Roman Urdu Example
 ```bash
-python main.py
-```
-
-### 4. Run the Dashboard (Streamlit UI)
-
-```bash
-streamlit run src/interface/app.py
+python main.py "Mera yeh kaam samajh ke improve karo"
 ```
 
 ---
 
-## 🎮 Usage Examples
-
-### English Instruction
-```
-Query: I want ideas to earn money with AI
-Agent Status: IN_PROGRESS → COMPLETED
-✅ COMPLETED: Analyzed 5 profitable AI SaaS niches. Top recommendation: Document automation.
-```
-
-### Roman Urdu Instruction
-```
-Query: Mera yeh repo samajh ke improve karo
-Agent Status: IN_PROGRESS → COMPLETED
-✅ COMPLETED: Read repo structure and suggested 3 specific performance improvements.
-```
-
-### Blocked by Reality Lock (Clause 11)
-```
-Query: Go buy a coffee for me
-Agent Status: BLOCKED
-❌ BLOCKED: Physical action required. Cannot execute without physical presence.
-   Next best option: I can order online if given store URL and credentials.
-```
-
----
-
-## 📊 Sample Execution Trace (JSON Log)
-
-Every run generates a structured log at `logs/session_<timestamp>.json`:
+## 🔍 Example Output
 
 ```json
 {
-  "session_id": "20260301_013000",
-  "total_steps": 3,
-  "trace": [
-    {
-      "step": 1,
-      "agent": "Planner",
-      "input": "Research profitable AI ideas",
-      "output": "Plan created with 3 steps",
-      "status": "✅ OK"
-    },
-    {
-      "step": 2,
-      "agent": "Executor",
-      "input": "Research profitable AI SaaS ideas for 2026",
-      "output": "Successfully performed research step",
-      "status": "✅ COMPLETED"
-    },
-    {
-      "step": 3,
-      "agent": "Validator",
-      "input": "Verify all steps completed",
-      "output": "All steps verified. Task marked as COMPLETED.",
-      "status": "✅ COMPLETED"
-    }
-  ]
+  "status": "COMPLETED",
+  "summary": "Validated online income idea generated",
+  "constitution_violations": []
 }
 ```
 
 ---
 
-## 🟢 Status Labels
+## 🏷️ Status Labels
 
-| Label | Meaning |
-|---|---|
-| ✅ `COMPLETED` | All steps verified and done |
-| 🟡 `PARTIAL` | Some steps incomplete |
-| ❌ `BLOCKED` | Physical limit, missing creds, or reality lock |
-| ⏳ `WAITING` | User input required |
-| 🔄 `IN_PROGRESS` | Currently executing |
+* **COMPLETED** ✅
+  All requirements satisfied, constitution compliant, validated.
 
----
+* **PARTIAL** 🟡
+  Some subtasks blocked, but useful output produced.
 
-## 🛠️ Modularity
+* **BLOCKED** ❌
+  Task violates constitution (e.g. physical action, credentials).
 
-```
-src/
-  agents/        ← Planner, Executor, Researcher, Validator, Memory
-  core/          ← Graph Engine, Constitution, State, Prompts, Logger
-  tools/         ← Filesystem, Shell, Browser, Python REPL
-  memory/        ← SQLite Long-Term Storage
-  interface/     ← CLI (Rich) + Dashboard (Streamlit)
-plugins/         ← Drop-in custom agents/tools
-tests/           ← Full test suite (15+ tests)
-docs/            ← Sample traces and references
-```
+* **WAITING** ⏸️
+  Explicit user confirmation required.
 
 ---
 
-## 🧪 Running Tests
+## 🔐 Security Model
+
+* 🔒 Filesystem access restricted to project root
+* ⚠️ Dangerous shell commands require user confirmation
+* 🚫 Physical-world actions blocked by Reality Lock
+* 🔁 Infinite loops automatically terminated
+
+---
+
+## 🧪 Testing
 
 ```bash
-pytest tests/ -v
+python -m pytest tests/
 ```
+
+Includes:
+* Agent unit tests
+* Plan → Act → Verify integration tests
+* Constitution compliance checks
+
+---
+
+## 📜 Agent Constitution
+
+All agents operate under a strict constitution defined in:
+```
+CONSTITUTION.md
+```
+This document is **runtime-enforced**, not just documentation.
+
+---
+
+## 🛣️ Roadmap
+
+- [x] Plugin system for custom agents
+- [ ] Vector memory support
+- [x] Web dashboard (Streamlit)
+- [ ] Multi-user isolation
+- [ ] On-prem / enterprise mode
 
 ---
 
 ## 🤝 Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for architecture guidelines, code style, and constitution compliance rules.
-
----
-
-## 📜 Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for version history.
-
----
-
-## 📦 Install as Package
-
-```bash
-pip install .
-```
+Contributions are welcome!
+1. Fork the repo
+2. Create a feature branch
+3. Add tests for new logic
+4. Ensure Validator passes
+5. Open a PR with explanation
 
 ---
 
 ## 📄 License
 
-MIT — Built with ❤️ for autonomous AI research.
-## ?? Example Run
+MIT License — free to use, modify, and distribute.
 
-### Input
-`ash
-python main.py "I want an idea to earn money"
-`
+---
 
-### Execution Flow
+## 🧠 Final Note
 
-* Planner ? Task decomposition
-* Researcher ? Market trends
-* Executor ? Proposal generation
-* Validator ? Constitution + coverage check
-* Memory Agent ? Store validated outcome
+UA²S is built for developers who want:
+* **control over autonomy**
+* **explainable AI behavior**
+* **safety by design**
 
-### Output
-
-`json
-{
-  "status": "COMPLETED",
-  "summary": "Generated a validated online income idea",
-  "constitution_violations": []
-}
-`
-
-### Status Labels
-
-* **COMPLETED** ? 100% requirements satisfied
-* **PARTIAL** ? Some tasks blocked
-* **BLOCKED** ? Reality lock / missing credentials
-* **WAITING** ? User confirmation required
+If you’re tired of uncontrolled agent loops — UA²S is for you.
